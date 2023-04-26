@@ -6,6 +6,6 @@ class UsersController < ApplicationController
 
   #current user in json 
   def show 
-
+    binding.pry 
   end 
 end

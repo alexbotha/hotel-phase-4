@@ -1,9 +1,21 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 
 const UserContext = React.createContext();
 
 function UserProvider({ children }) {
-  return <UserContext.Provider value={{}}>{children}</UserContext.Provider>;
+  const [user, setUser] = useState({});
+
+  useEffect(() => {
+    fetch("/me")
+      .then((res) => res.json())
+      .then((data) => {
+        setUser(data);
+      });
+  }, []);
+
+  return (
+    <UserContext.Provider value={{ user }}>{children}</UserContext.Provider>
+  );
 }
 
 export { UserContext, UserProvider };
