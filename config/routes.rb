@@ -12,4 +12,5 @@ Rails.application.routes.draw do
  
    #Routes - full crud 
    resources :bookings 
+   resources :hotels 
 end
