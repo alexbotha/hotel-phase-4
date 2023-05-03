@@ -1,7 +1,7 @@
 class HotelsController < ApplicationController
 
   def index 
-    
+   
     hotels = Hotel.all 
     render json: hotels, status: :ok 
   end 
@@ -17,6 +17,13 @@ class HotelsController < ApplicationController
     booking.destroy
     render json: {message: "Booking has been deleted."}, status: :ok
   end 
+
+  def update 
+    
+    hotel = Hotel.find_by(id: params[:id]) 
+      hotel.update!(hotel_params)
+      render json: hotel, status: :ok
+  end
 
   private 
 
