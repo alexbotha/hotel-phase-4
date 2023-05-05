@@ -4,23 +4,95 @@ const UserContext = React.createContext();
 
 function UserProvider({ children }) {
   const [user, setUser] = useState(null);
+  const [loggedIn, setLoggedIn] = useState(false);
+  const [bookings, setBookings] = useState([]);
+  const [hotels, setHotels] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:4000/me")
+    fetch("/me")
       .then((res) => res.json())
       .then((data) => {
         setUser(data);
+        if (data.error) {
+          setLoggedIn(false);
+        } else {
+          setLoggedIn(true);
+          fetchBookings();
+          fetchHotels();
+        }
       });
   }, []);
 
-  function login() {}
+  function fetchBookings() {
+    fetch("/bookings")
+      .then((r) => r.json())
+      .then((data) => {
+        setBookings(data);
+      });
+  }
 
-  function logout() {}
+  function fetchHotels() {
+    fetch("/hotels")
+      .then((r) => r.json())
+      .then((data) => {
+        setHotels(data);
+      });
+  }
 
-  function signup() {}
+  function addBooking(booking) {
+    fetch("/bookings", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(booking),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setBookings([...bookings, data]);
+      });
+  }
+
+  function addHotel(hotel) {
+    fetch("/hotels", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(hotel),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setBookings([...hotels, data]);
+      });
+  }
+
+  function login(user) {
+    setUser(user);
+    setLoggedIn(true);
+    fetchHotels();
+  }
+
+  function logout() {
+    setUser({});
+    setLoggedIn(false);
+  }
+
+  function signup(user) {
+    setUser(user);
+    setLoggedIn(true);
+  }
 
   return (
-    <UserContext.Provider value={{ user, login, logout, signup }}>
+    <UserContext.Provider
+      value={{
+        user,
+        login,
+        logout,
+        signup,
+        loggedIn,
+        bookings,
+        addBooking,
+        hotels,
+        addHotel,
+      }}
+    >
       {children}
     </UserContext.Provider>
   );
