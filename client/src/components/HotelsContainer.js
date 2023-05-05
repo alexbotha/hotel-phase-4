@@ -1,25 +1,23 @@
 import React, { useContext } from "react";
 import { NavLink } from "react-router-dom";
 import { UserContext } from "../context/user";
+import HotelItem from "./HotelItem";
 
 function HotelsContainer() {
   const { loggedIn, hotels } = useContext(UserContext);
 
   if (loggedIn) {
-    const hotelsList = hotels.map((hotel) => (
-      <div>
-        <h3>{hotel.name}</h3>
-        <p>{hotel.location}</p>
-        <NavLink to={`/hotels/${hotel.id}`}>See more!</NavLink>
-      </div>
-    ));
     return (
-      <div>
-        <h3>Hotels</h3>
-        <br />
-        <p>There are {hotels.length} hotels to chose from</p>
-        {hotelsList}
-      </div>
+      <>
+        <div>
+          <h3>Hotels</h3>
+          <br />
+          <p>There are {hotels.length} hotels to chose from</p>
+        </div>
+        {hotels.map((hotel) => (
+          <HotelItem hotel={hotel} />
+        ))}
+      </>
     );
   } else {
     return <h3>Please sign up or login</h3>;
