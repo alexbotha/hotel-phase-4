@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Route, Routes } from "react-router-dom";
 import { UserProvider } from "../context/user";
+import { UserContext } from "../context/user";
 
 import Home from "./Home";
 import Navbar from "./Navbar";
@@ -11,6 +12,7 @@ import Hotel from "./Hotel";
 import HotelsContainer from "./HotelsContainer";
 
 function App() {
+  const { hotels } = useContext(UserContext);
   return (
     <div className="App">
       <UserProvider>
@@ -26,7 +28,11 @@ function App() {
             path="/myaccount/bookings"
             element={<BookingsContainer />}
           />
-          <Route exact path="/hotels/:id" element={<Hotel />} />
+          <Route
+            exact
+            path="/hotels/:id"
+            element={hotels.length > 0 ? <Hotel /> : null}
+          />
           {/* <Route
             exact
             path=""
