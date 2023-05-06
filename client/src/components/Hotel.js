@@ -3,8 +3,8 @@ import { useParams } from "react-router-dom";
 import { UserContext } from "../context/user";
 
 function Hotel() {
-  const { hotels } = useContext(UserContext);
-  const [hotel, setHotel] = useState({});
+  const { hotels, loading } = useContext(UserContext);
+  const [hotel, setHotel] = useState([]);
   const { id } = useParams();
 
   useEffect(() => {
@@ -12,20 +12,20 @@ function Hotel() {
     setHotel(hotel);
   }, [id, hotels]);
 
-  console.log("here", hotel);
-
-  return (
-    <>
-      <div className="carding">
-        <img src={hotel.image_url} alt="hotelimage" />
+  return loading ? (
+    <h3 className="loading">Loading...</h3>
+  ) : (
+    <div className="one-hotel">
+      <img src={hotel.image_url} alt="hotelimage" />
+      <div className="one-hotel-text">
+        <h3>{hotel.name}</h3>
+        <p>{hotel.about}</p>
+        <p>{hotel.location}</p>
+        <p>Rating: {hotel.rating}</p>
+        <p>Price per night: {hotel.price}</p>
+        <p>Country: {hotel.country}</p>
       </div>
-      <h3>{hotel.name}</h3>
-      <p>{hotel.about}</p>
-      <p>{hotel.location}</p>
-      <p>Rating: {hotel.rating}</p>
-      <p>Price per night: {hotel.price}</p>
-      <p>Country: {hotel.country}</p>
-    </>
+    </div>
   );
 }
 

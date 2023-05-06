@@ -1,5 +1,4 @@
 import React, { useContext } from "react";
-import { NavLink } from "react-router-dom";
 import { UserContext } from "../context/user";
 import HotelItem from "./HotelItem";
 
@@ -15,7 +14,7 @@ function HotelsContainer() {
           <p>There are {hotels.length} hotels to chose from</p>
         </div>
         {hotels.map((hotel) => (
-          <HotelItem hotel={hotel} />
+          <HotelItem key={hotel.id} hotel={hotel} />
         ))}
       </>
     );
