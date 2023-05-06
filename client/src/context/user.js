@@ -3,11 +3,12 @@ import React, { useState, useEffect } from "react";
 const UserContext = React.createContext();
 
 function UserProvider({ children }) {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState("");
   const [loggedIn, setLoggedIn] = useState(false);
   const [bookings, setBookings] = useState([]);
   const [hotels, setHotels] = useState([]);
-
+  const [loading, setLoading] = useState(true);
+  console.log(user);
   useEffect(() => {
     fetch("/me")
       .then((res) => res.json())
@@ -36,6 +37,7 @@ function UserProvider({ children }) {
       .then((r) => r.json())
       .then((data) => {
         setHotels(data);
+        setLoading(false);
       });
   }
 
@@ -77,12 +79,14 @@ function UserProvider({ children }) {
   function signup(user) {
     setUser(user);
     setLoggedIn(true);
+    fetchHotels();
   }
 
   return (
     <UserContext.Provider
       value={{
         user,
+        setUser,
         login,
         logout,
         signup,
@@ -91,6 +95,7 @@ function UserProvider({ children }) {
         addBooking,
         hotels,
         addHotel,
+        loading,
       }}
     >
       {children}
