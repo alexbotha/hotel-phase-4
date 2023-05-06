@@ -9,6 +9,10 @@ function Login() {
   const { login, loggedIn, user } = useContext(UserContext);
   const navigate = useNavigate();
 
+  function signUp() {
+    navigate("/signup");
+  }
+
   function handleSubmit(e) {
     e.preventDefault();
     fetch("/login", {
@@ -32,29 +36,33 @@ function Login() {
   }
   if (!loggedIn) {
     return (
-      <>
-        <form onSubmit={handleSubmit}>
-          <input
-            type="text"
-            name="username"
-            value={username}
-            placeholder="Username"
-            onChange={(e) => setUsername(e.target.value)}
-          />
-          <input
-            type="password"
-            name="password"
-            value={password}
-            placeholder="Password"
-            onChange={(e) => setPassword(e.target.value)}
-          />
-          <input type="submit" />
-        </form>
-        <ul>{error}</ul>
-      </>
+      <div className="login-register">
+        <h3>Welcome, to bookingPlus. Please login in to access the site.</h3>
+        <div>
+          <form onSubmit={handleSubmit}>
+            <input
+              type="text"
+              name="username"
+              value={username}
+              placeholder="Username"
+              onChange={(e) => setUsername(e.target.value)}
+            />
+            <input
+              type="password"
+              name="password"
+              value={password}
+              placeholder="Password"
+              onChange={(e) => setPassword(e.target.value)}
+            />
+            <input type="submit" />
+            <ul>{error}</ul>
+          </form>
+        </div>
+        <button onClick={signUp}>Don't have an account? Register here</button>
+      </div>
     );
   } else {
-    return <h3>Welcome back, {user.username}.</h3>;
+    return <h3 className="styles">{user.username}</h3>;
   }
 }
 

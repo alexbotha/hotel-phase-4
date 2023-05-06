@@ -11,6 +11,10 @@ function Signup() {
   const { signup } = useContext(UserContext);
   const navigate = useNavigate();
 
+  function login() {
+    navigate("/login");
+  }
+
   function handleSubmit(e) {
     e.preventDefault();
     fetch("/signup", {
@@ -27,7 +31,7 @@ function Signup() {
       .then((user) => {
         if (!user.errors) {
           signup(user);
-          navigate("/");
+          navigate("/myaccount");
         } else {
           const errorLis = user.errors.map((e) => <li>{e}</li>);
           setErrorsList(errorLis);
@@ -36,42 +40,46 @@ function Signup() {
   }
 
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          name="username"
-          onChange={(e) => setUsername(e.target.value)}
-          placeholder="Username"
-          value={username}
-        />
+    <div className="login-register">
+      <h3>To register, simply fill in the form below.</h3>
+      <div>
+        <form onSubmit={handleSubmit}>
+          <input
+            type="text"
+            name="username"
+            onChange={(e) => setUsername(e.target.value)}
+            placeholder="Username"
+            value={username}
+          />
 
-        <input
-          type="email"
-          name="email"
-          onChange={(e) => setEmail(e.target.value)}
-          placeholder="Email"
-          value={email}
-        />
+          <input
+            type="email"
+            name="email"
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="Email"
+            value={email}
+          />
 
-        <input
-          type="password"
-          name="password"
-          onChange={(e) => setPassword(e.target.value)}
-          placeholder="Password"
-          value={password}
-        />
+          <input
+            type="password"
+            name="password"
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="Password"
+            value={password}
+          />
 
-        <input
-          type="password"
-          name="password_confirmation"
-          onChange={(e) => setPasswordConfirmation(e.target.value)}
-          placeholder="Password Confirmation"
-          value={passwordConfirmation}
-        />
-        <input type="submit" />
-      </form>
-      <ul>{errorsList}</ul>
+          <input
+            type="password"
+            name="password_confirmation"
+            onChange={(e) => setPasswordConfirmation(e.target.value)}
+            placeholder="Password Confirmation"
+            value={passwordConfirmation}
+          />
+          <input type="submit" />
+          <ul>{errorsList}</ul>
+        </form>
+      </div>
+      <button onClick={login}>Already have an account? Login here</button>
     </div>
   );
 }
