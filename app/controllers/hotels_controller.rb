@@ -11,6 +11,15 @@ class HotelsController < ApplicationController
     render json: hotel, status: :created
   end 
 
+  def show 
+    hotel = Hotel.find_by(id: params[:id])
+    if hotel 
+      render json: hotel, status: :ok
+    else 
+      render json: {error: "not found"}, status: :unauthorized
+  end 
+end
+
   def destroy 
     
     hotel = Hotel.find(params[:id])
