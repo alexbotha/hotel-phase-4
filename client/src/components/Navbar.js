@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import { UserContext } from "../context/user";
-import { useNavigate, NavLink } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
+import styled from "styled-components";
 
 function Navbar() {
   const { user, logout, loggedIn } = useContext(UserContext);
@@ -18,31 +19,38 @@ function Navbar() {
 
   if (loggedIn) {
     return (
-      <div className="navbar">
-        <h3>{`${user.username}'s account`}</h3>
-
+      <div className="navBarContainer">
+        {<h3 className="username">{`bookingPlus: ${user.username}`}</h3>}
         <br />
-        <NavLink to="/hotels">
-          <button>Hotels</button>
-        </NavLink>
-        <NavLink to="/myaccount">
-          <button>My account </button>
-        </NavLink>
-        <button onClick={logoutUser}>Logout</button>
+        <div className="navButtons">
+          <Button as={Link} to="/myaccount">
+            myaccount
+          </Button>
+          <Button as={Link} to="/hotels">
+            Hotels
+          </Button>
+          <Button onClick={logoutUser}>Logout</Button>
+          {/* to="/logout" */}
+        </div>
       </div>
     );
   } else {
-    return (
-      <div>
-        <NavLink to="/login">
-          <button>Login</button>
-        </NavLink>
-        <NavLink to="/signup">
-          <button>Signup</button>
-        </NavLink>
-      </div>
-    );
+    return <div className="navBarContainer"></div>;
   }
 }
+
+const Button = styled.button`
+  cursor: pointer;
+  font-size: 1.3rem;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  padding: 8px 16px;
+  text-decoration: none;
+  background-color: #0000;
+  color: white;
+  &:hover {
+    opacity: 0.9;
+  }
+`;
 
 export default Navbar;
