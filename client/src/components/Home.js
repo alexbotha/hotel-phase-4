@@ -1,12 +1,13 @@
 import React, { useContext } from "react";
 import { UserContext } from "../context/user";
 import { NavLink } from "react-router-dom";
+import Login from "./Login";
 
 function Home() {
   const { user, loggedIn } = useContext(UserContext);
 
   if (!loggedIn) {
-    return <h3>Please login or signup</h3>;
+    return <Login />;
   } else {
     return (
       <div>
