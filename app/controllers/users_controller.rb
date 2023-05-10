@@ -14,7 +14,7 @@ end
   def show 
     user = User.find_by(id: session[:user_id])
     if user 
-      render json: user 
+      render json: user, include: :bookings
     else
       render json: {error: "Not authorized"}, status: :unauthorized   
     end 
@@ -22,11 +22,11 @@ end
 
   def update 
     user = User.find_by(id: session[:user_id])
-    if user 
-      user.update!(profile_params)
+    if user  
+      user.update(profile_params)
       render json: user, status: :ok
     else 
-      render json: {error: "Not authrozied"}, status: :unauthorized
+      render json: {error: "Not authorized"}, status: :unauthorized
     end 
   end
 
