@@ -2,13 +2,14 @@ class BookingsController < ApplicationController
   before_action :auth
 
   def index 
-
+    
     bookings = current_user.bookings
     render json: bookings
   end 
 
   def show 
    booking = current_user.bookings.find_by(id: params[:id])
+   
    if booking
     render json: booking
    else 
@@ -18,8 +19,7 @@ end
 
   def create 
     booking = current_user.bookings.create!(booking_params)
-    if booking.valid? 
-      booking.save!
+    if booking.save
       render json: booking
     else 
       render json: {errors: booking.errors.full_messages}, status: :unprocessable_entity
@@ -48,7 +48,7 @@ end
   end 
 
   def booking_params
-    params.permit(:user_id, :check_in, :check_out, :guests)
+    params.permit(:user_id, :check_in, :check_out, :guests, :hotel_id)
   end 
 
   def auth
