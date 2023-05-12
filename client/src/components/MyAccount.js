@@ -1,20 +1,15 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import { UserContext } from "../context/user";
-import EditMyAccount from "./EditMyAccount";
 
 function MyAccount() {
-  const { loggedIn, user } = useContext(UserContext);
-  const [editPage, setEditPage] = useState(false);
+  const { loggedIn, user, loading } = useContext(UserContext);
 
-  function editAccount() {
-    setEditPage(true);
-  }
-
-  if (loggedIn && editPage === false) {
-    // const bookingsList = bookings.map((booking) => <li>{booking.hotel.name}</li>);
-    return (
+  if (loggedIn) {
+    return loading ? (
+      <h3 className="loading">Loading...</h3>
+    ) : (
       <>
-        <div className="my-account-details">
+        {/* <div className="my-account-details">
           <h3>{`${user.username}'s profile`}</h3>
           <p>{`First name: ${user.first_name}`}</p>
           <p>{`Last name: ${user.last_name}`}</p>
@@ -26,13 +21,21 @@ function MyAccount() {
           <p>{`Post code: ${user.post_code}`}</p>
           <p>{`Profile photo: ${user.avatar_url}`}</p>
           <br></br>
-          <button onClick={editAccount}>Click to edit details</button>
-        </div>
-        {/* {bookingsList} */}
+        </div> */}
+        <>
+          <div className="my-account-details">
+            <h3>{user.username} hotels booked</h3>
+            {user.bookings.map((booking) => (
+              <>
+                <li>{booking.hotel.name}</li>
+                <button>Edit</button>
+                <button>Delete</button>
+              </>
+            ))}
+          </div>
+        </>
       </>
     );
-  } else if (loggedIn && editPage === true) {
-    return <EditMyAccount setEditPage={setEditPage} />;
   } else {
     return <h3>Not available</h3>;
   }
