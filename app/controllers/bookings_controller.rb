@@ -4,14 +4,14 @@ class BookingsController < ApplicationController
   def index 
     
     bookings = current_user.bookings
-    render json: bookings
+    render json: bookings, include: :hotel
   end 
 
   def show 
    booking = current_user.bookings.find_by(id: params[:id])
    
    if booking
-    render json: booking
+    render json: booking, include: :hotel
    else 
     render json: {error: "Not found"}, status: :unauthorized
   end
