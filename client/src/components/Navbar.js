@@ -4,7 +4,7 @@ import { useNavigate, Link } from "react-router-dom";
 import styled from "styled-components";
 
 function Navbar() {
-  const { user, logout, loggedIn } = useContext(UserContext);
+  const { user, logout, loggedIn, loading } = useContext(UserContext);
   const navigate = useNavigate();
 
   function logoutUser() {
@@ -18,7 +18,9 @@ function Navbar() {
   }
 
   if (loggedIn) {
-    return (
+    return loading ? (
+      <h3>Loading...</h3>
+    ) : (
       <div className="navBarContainer">
         {<h3 className="username">{`bookingPlus: ${user.username}`}</h3>}
         <br />
@@ -30,7 +32,6 @@ function Navbar() {
             Hotels
           </Button>
           <Button onClick={logoutUser}>Logout</Button>
-          {/* to="/logout" */}
         </div>
       </div>
     );
