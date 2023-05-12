@@ -177,3 +177,15 @@ code {
   justify-content: center;
   flex-direction: column;
 }
+
+.myaccountbookings {
+  display: grid;
+  float: left;
+  margin: 15px;
+  font-family: Arial, Helvetica, sans-serif;
+  text-align: center;
+  background-color: rgba(255, 255, 255, 0.952);
+  border-radius: 10px;
+  border: 1px;
+  box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+}
