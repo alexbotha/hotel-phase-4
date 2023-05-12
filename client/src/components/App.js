@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
 import { UserProvider } from "../context/user";
 import { UserContext } from "../context/user";
@@ -11,9 +11,20 @@ import MyAccount from "./MyAccount";
 import Hotel from "./Hotel";
 import HotelsContainer from "./HotelsContainer";
 import AddBookingForm from "./AddBookingForm";
+import AddHotel from "./AddHotel";
+import EditBooking from "./EditBooking";
+import UserHotels from "./UserHotels";
 
 function App() {
-  const { hotels, loggedIn, loading } = useContext(UserContext);
+  const { loggedIn } = useContext(UserContext);
+  const [users, setUsers] = useState([]);
+
+  useEffect(() => {
+    fetch("/users")
+      .then((r) => r.json())
+      .then((data) => setUsers(data));
+  }, []);
+
   return (
     <div className="App">
       <UserProvider>
@@ -29,17 +40,15 @@ function App() {
             path="/hotels/:hotelId/bookings/new"
             element={<AddBookingForm />}
           />
-          {/* <Route
+
+          <Route exact path="/hotels/:id" element={<Hotel users={users} />} />
+          <Route exact path="/hotels/new" element={<AddHotel />} />
+          <Route exact path="/bookings/:id" element={<EditBooking />} />
+          <Route
             exact
-            path="/myaccount/bookings"
-            element={<MyAccount />}
-          /> */}
-          <Route exact path="/hotels/:id" element={<Hotel />} />
-          {/* <Route
-            exact
-            path=""
-            element={<AddBookingForm />}
-          /> */}
+            path="/users/:id"
+            element={<UserHotels users={users} />}
+          />
         </Routes>
       </UserProvider>
     </div>
