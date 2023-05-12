@@ -3,7 +3,7 @@ class HotelsController < ApplicationController
   def index 
    
     hotels = Hotel.all 
-    render json: hotels, status: :ok 
+    render json: hotels, include: ['bookings', 'bookings.user']
   end 
 
   def create 
@@ -12,12 +12,8 @@ class HotelsController < ApplicationController
   end 
 
   def show 
-    hotel = Hotel.find_by(id: params[:id])
-    if hotel 
-      render json: hotel, status: :ok
-    else 
-      render json: {error: "not found"}, status: :unauthorized
-  end 
+    hotel = Hotel.find_by(id: params[:id]) 
+      render json: hotel, include: ['bookings', 'bookings.user']
 end
 
   def destroy 
