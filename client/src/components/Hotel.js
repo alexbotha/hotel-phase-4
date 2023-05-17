@@ -28,11 +28,9 @@ function Hotel() {
             <p>Price per night: {hotel.price}</p>
             <p>Country: {hotel.country}</p>
             <h3>Who's booked this?</h3>
-            {hotel.bookings.map((booking) => (
+            {hotel.custom_users.map((user) => (
               <li>
-                <Link to={`/users/${booking.user.id}`}>
-                  {booking.user.username}
-                </Link>
+                <Link to={`/users/${user.id}`}>{user.username}</Link>
               </li>
             ))}
           </div>
