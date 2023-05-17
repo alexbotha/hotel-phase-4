@@ -10,8 +10,6 @@ function EditMyAccount({ setEditPage }) {
     setUpdatedUser({ ...updatedUser, [e.target.name]: e.target.value });
   }
 
-  console.log(updatedUser);
-
   function handleSubmit(e) {
     e.preventDefault();
     fetch(`/users/${user.id}`, {
