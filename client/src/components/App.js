@@ -27,30 +27,28 @@ function App() {
 
   return (
     <div className="App">
-      <UserProvider>
-        <Navbar />
-        <Routes>
-          <Route exact path="/" element={loggedIn ? <Home /> : <Login />} />
-          <Route exact path="/signup" element={<Signup />} />
-          <Route exact path="/login" element={<Login />} />
-          <Route exact path="/hotels" element={<HotelsContainer />} />
-          <Route exact path="/myaccount" element={<MyAccount />} />
-          <Route
-            exact
-            path="/hotels/:hotelId/bookings/new"
-            element={<AddBookingForm />}
-          />
+      <Navbar />
+      <Routes>
+        <Route exact path="/" element={loggedIn ? <Home /> : <Login />} />
+        <Route exact path="/signup" element={<Signup />} />
+        <Route exact path="/login" element={<Login />} />
+        <Route exact path="/hotels" element={<HotelsContainer />} />
+        <Route exact path="/myaccount" element={<MyAccount />} />
+        <Route
+          exact
+          path="/hotels/:hotelId/bookings/new"
+          element={<AddBookingForm />}
+        />
 
-          <Route exact path="/hotels/:id" element={<Hotel users={users} />} />
-          <Route exact path="/hotels/new" element={<AddHotel />} />
-          <Route exact path="/bookings/:id" element={<EditBooking />} />
-          <Route
-            exact
-            path="/users/:id"
-            element={<UserHotels users={users} />}
-          />
-        </Routes>
-      </UserProvider>
+        <Route exact path="/hotels/:id" element={<Hotel users={users} />} />
+        <Route exact path="/hotels/new" element={<AddHotel />} />
+        <Route
+          exact
+          path="myaccount/bookings/:booking_id"
+          element={users.length > 0 ? <EditBooking /> : null}
+        />
+        <Route exact path="/users/:id" element={<UserHotels users={users} />} />
+      </Routes>
     </div>
   );
 }
