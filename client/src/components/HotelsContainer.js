@@ -1,10 +1,10 @@
 import React, { useContext } from "react";
 import { UserContext } from "../context/user";
 import HotelItem from "./HotelItem";
-import { useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
 function HotelsContainer() {
-  const { loggedIn, hotels } = useContext(UserContext);
+  const { loggedIn, hotels, bookings } = useContext(UserContext);
   const navigate = useNavigate();
 
   function createHotel() {
@@ -26,7 +26,12 @@ function HotelsContainer() {
       </>
     );
   } else {
-    return <h3>Please sign up or login</h3>;
+    return (
+      <h3 className="errorHandle">
+        Please <NavLink to={"/signup"}>sign up</NavLink> or{" "}
+        <NavLink to={"/login"}>login</NavLink>
+      </h3>
+    );
   }
 }
 
