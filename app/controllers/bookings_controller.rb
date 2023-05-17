@@ -20,13 +20,12 @@ end
     booking = current_user.bookings.create(booking_params)
     if booking.valid?
       render json: booking, status: :ok
-  else 
+    else 
       render json: {errors: booking.errors.full_messages}, status: :unprocessable_entity
     end
 end
 
-  def destroy 
-    
+  def destroy  
     booking = find_booking
     if booking.user_id == session[:user_id]
     booking.destroy
@@ -47,10 +46,6 @@ end
   end 
 
   private 
-
-  def redirect 
-    redirect_to "http://localhost:4000/myaccount"
-  end 
 
   def find_booking
     Booking.find(params[:id])
