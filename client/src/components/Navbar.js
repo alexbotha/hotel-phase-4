@@ -12,8 +12,8 @@ function Navbar() {
       method: "DELETE",
       headers: { "Content-type": "application/json" },
     }).then(() => {
-      logout();
       navigate("/");
+      logout();
     });
   }
 
