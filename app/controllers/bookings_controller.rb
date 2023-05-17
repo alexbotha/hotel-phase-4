@@ -1,43 +1,56 @@
 class BookingsController < ApplicationController
   before_action :auth
 
-  def index 
-    
-    bookings = current_user.bookings
-    render json: bookings, include: :hotel
+  def index
+    bookings = Booking.all
+    render json: bookings, include: [:hotel, :user]
   end 
 
   def show 
    booking = current_user.bookings.find_by(id: params[:id])
    
    if booking
-    render json: booking, include: :hotel
+    render json: booking, include: [:hotel, :user]
    else 
     render json: {error: "Not found"}, status: :unauthorized
   end
 end
 
   def create 
-    booking = current_user.bookings.create!(booking_params)
-    if booking.save
-      render json: booking
-    else 
+    booking = current_user.bookings.create(booking_params)
+    if booking.valid?
+      render json: booking, status: :ok
+  else 
       render json: {errors: booking.errors.full_messages}, status: :unprocessable_entity
-  end
+    end
 end
 
   def destroy 
-    booking = bookings.find(params[:id])
+    
+    booking = find_booking
+    if booking.user_id == session[:user_id]
     booking.destroy
     render json: {message: "Booking has been deleted."}, status: :ok
+    else 
+      render json: {error: "You do not have permission to delete this booking"}, status: :unauthorized
+      end
   end 
 
   def update 
-    update = find_booking.update!(booking_params)
-    render json: update, status: :ok
+    booking = current_user.bookings.find(params[:id])
+    booking.update!(booking_params)
+    if booking
+    render json: booking, status: :ok
+    else 
+      render json: {error: ["Please make sure fields are completed"]}, status: :unprocessable_entity
+    end 
   end 
 
   private 
+
+  def redirect 
+    redirect_to "http://localhost:4000/myaccount"
+  end 
 
   def find_booking
     Booking.find(params[:id])
@@ -48,7 +61,7 @@ end
   end 
 
   def booking_params
-    params.permit(:user_id, :check_in, :check_out, :guests, :hotel_id)
+    params.permit(:user_id, :check_in, :check_out, :guests, :hotel_id, :id)
   end 
 
   def auth
