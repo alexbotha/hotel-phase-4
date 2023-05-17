@@ -1,4 +1,5 @@
 class HotelsController < ApplicationController
+  before_action :auth
 
   def index 
    
@@ -34,6 +35,10 @@ end
 
   def hotel_params
     params.permit(:name, :location, :image_url, :rating, :price, :about, :telephone, :country)
+  end 
+
+  def auth
+    return render json: {error: "Not authorized"}, status: :unauthorized unless session.include? :user_id
   end 
 
 end
