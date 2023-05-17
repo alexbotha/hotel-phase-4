@@ -189,3 +189,11 @@ code {
   border: 1px;
   box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
 }
+
+.errorHandle {
+  display: grid;
+  float: left;
+  margin: 115px;
+  font-family: Arial, Helvetica, sans-serif;
+  text-align: center;
+}
