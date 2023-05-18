@@ -45,28 +45,49 @@ function UserProvider({ children }) {
         if (data.errors) {
           setError(data.errors);
         } else {
-          console.log("data", data);
-
           setUser({ ...user, bookings: [...user.bookings, data] });
 
-          let hotelId = data.hotel.id;
+          // let cusId = data.user.id;
           // let hotelBooking = Object.fromEntries(
           //   Object.entries(data).filter((e) => e[0] !== "hotel")
           // );
 
+          // let hotelId = data.hotel.id;
+          // let hot = hotels.find((e) => e.id === hotelId);
+
+          // let updatedHotel = {
+          //   ...hot,
+          //   custom_users: [...hot.custom_users, data.user],
+          // };
+
+          // if a booking is added we want to check if username is in custom_users once
+          // if it is in custom_users then we don't update hotels
+          // create a boolean to measure whether a booking.user_id is already in custom_users
+
+          // const z = hot.custom_users.map((cu) => cu.id);
+
+          let hotelId = data.hotel.id;
           let hot = hotels.find((e) => e.id === hotelId);
-          let updatedHotel = {
-            ...hot,
-            bookings: [...hot.bookings, data],
-          };
-          let updatedHotels = hotels.map((e) => {
-            if (e.id === hotelId) {
-              return updatedHotel;
-            } else {
-              return e;
-            }
-          });
-          setHotels(updatedHotels);
+
+          function updatedHotels() {
+            let updatedHotel = {
+              ...hot,
+              custom_users: [...hot.custom_users, data.user],
+            };
+
+            return hotels.map((hotel) => {
+              if (hotel.id === hotelId) {
+                return updatedHotel;
+              } else {
+                return hotel;
+              }
+            });
+          }
+
+          let valid = !!hot.custom_users.find((cu) => cu.id === data.user_id);
+
+          valid ? console.log("no") : setHotels(updatedHotels);
+
           setError([]);
           navigate("/myaccount");
         }
@@ -146,6 +167,7 @@ function UserProvider({ children }) {
         loading,
         editBooking,
         error,
+        setHotels,
       }}
     >
       {children}
