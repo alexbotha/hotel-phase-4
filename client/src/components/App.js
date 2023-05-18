@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
-import { UserProvider } from "../context/user";
+
 import { UserContext } from "../context/user";
 
 import Home from "./Home";
