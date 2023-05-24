@@ -1,3 +1,3 @@
 class BookingHotelSerializerSerializer < ActiveModel::Serializer
-  attributes :id, :name, :country, :about
+  attributes :id, :name
 end
