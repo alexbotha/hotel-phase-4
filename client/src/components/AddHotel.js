@@ -11,7 +11,7 @@ function AddHotel() {
   const [about, setAbout] = useState("");
   const [telephone, setTelephone] = useState("");
   const [country, setCountry] = useState("");
-  const { addHotel, user } = useContext(UserContext);
+  const { addHotel } = useContext(UserContext);
 
   const navigate = useNavigate();
 
@@ -37,7 +37,7 @@ function AddHotel() {
 
   return (
     <div className="createBooking">
-      <h3>{`Create a new hotel for ${user.username}`}</h3>
+      <h3>{"Create a new hotel"}</h3>
       <form onSubmit={handleSubmit}>
         <input
           type="text"

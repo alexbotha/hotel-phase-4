@@ -8,7 +8,8 @@ function AddBookingForm() {
   const [guests, setGuests] = useState("");
 
   const [h, setH] = useState("");
-  const { addBooking, hotels, loggedIn, loading } = useContext(UserContext);
+  const { addBooking, hotels, loggedIn, loading, error } =
+    useContext(UserContext);
   const { hotelId } = useParams();
   const navigate = useNavigate();
 
@@ -20,7 +21,6 @@ function AddBookingForm() {
       guests: guests,
       hotel_id: hotelId,
     });
-    navigate("/myaccount");
   }
 
   useEffect(() => {
@@ -57,6 +57,10 @@ function AddBookingForm() {
 
             <input type="submit" />
           </form>
+
+          {error.map((e) => {
+            return <li>{e}</li>;
+          })}
         </div>
       </>
     );
