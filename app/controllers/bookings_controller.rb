@@ -1,16 +1,19 @@
 class BookingsController < ApplicationController
+  # before_action taking in the private method :auth - this runs before anyting else which 
+  # prevents someone from gaining access to the crud actions unless they're a verified user
   before_action :auth
 
   def index
     bookings = Booking.all
-    render json: bookings, include: [:hotel, :user]
+    render json: bookings, status: :ok
+    #, include: [:hotel, :user]
   end 
 
   def show 
    booking = current_user.bookings.find_by(id: params[:id])
-   
    if booking
-    render json: booking, include: [:hotel, :user]
+    render json: booking, status: :ok
+    # , include: [:hotel, :user]
    else 
     render json: {error: "Not found"}, status: :unauthorized
   end
