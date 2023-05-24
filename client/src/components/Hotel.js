@@ -7,7 +7,7 @@ function Hotel() {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  const hotel = hotels.find((h) => h.id === parseInt(id));
+  let hotel = hotels.find((h) => h.id === parseInt(id));
 
   function book() {
     navigate(`/hotels/${id}/bookings/new`);

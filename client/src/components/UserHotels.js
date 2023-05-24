@@ -6,7 +6,6 @@ function UserHotels({ users }) {
   const { loggedIn, loading } = useContext(UserContext);
   const params = useParams();
   const found = users.find(({ id }) => id === parseInt(params.id));
-  console.log(found);
 
   if (loggedIn) {
     return loading ? (
