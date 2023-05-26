@@ -8,7 +8,7 @@ function Signup() {
   const [password, setPassword] = useState("");
   const [passwordConfirmation, setPasswordConfirmation] = useState("");
   const [errorsList, setErrorsList] = useState([]);
-  const { signup } = useContext(UserContext);
+  const { signup, loggedIn } = useContext(UserContext);
   const navigate = useNavigate();
 
   function login() {
@@ -38,50 +38,53 @@ function Signup() {
         }
       });
   }
+  if (!loggedIn) {
+    return (
+      <div className="login-register">
+        <h3>To register, simply fill in the form below.</h3>
+        <div>
+          <form onSubmit={handleSubmit}>
+            <input
+              type="text"
+              name="username"
+              onChange={(e) => setUsername(e.target.value)}
+              placeholder="Username"
+              value={username}
+            />
 
-  return (
-    <div className="login-register">
-      <h3>To register, simply fill in the form below.</h3>
-      <div>
-        <form onSubmit={handleSubmit}>
-          <input
-            type="text"
-            name="username"
-            onChange={(e) => setUsername(e.target.value)}
-            placeholder="Username"
-            value={username}
-          />
+            <input
+              type="email"
+              name="email"
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Email"
+              value={email}
+            />
 
-          <input
-            type="email"
-            name="email"
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="Email"
-            value={email}
-          />
+            <input
+              type="password"
+              name="password"
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="Password"
+              value={password}
+            />
 
-          <input
-            type="password"
-            name="password"
-            onChange={(e) => setPassword(e.target.value)}
-            placeholder="Password"
-            value={password}
-          />
-
-          <input
-            type="password"
-            name="password_confirmation"
-            onChange={(e) => setPasswordConfirmation(e.target.value)}
-            placeholder="Password Confirmation"
-            value={passwordConfirmation}
-          />
-          <input type="submit" />
-          <ul>{errorsList}</ul>
-        </form>
+            <input
+              type="password"
+              name="password_confirmation"
+              onChange={(e) => setPasswordConfirmation(e.target.value)}
+              placeholder="Password Confirmation"
+              value={passwordConfirmation}
+            />
+            <input type="submit" />
+            <ul>{errorsList}</ul>
+          </form>
+        </div>
+        <button onClick={login}>Already have an account? Login here</button>
       </div>
-      <button onClick={login}>Already have an account? Login here</button>
-    </div>
-  );
+    );
+  } else {
+    return <h3 className="errorHandle">You are already signed in</h3>;
+  }
 }
 
 export default Signup;
