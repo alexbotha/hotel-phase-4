@@ -29,6 +29,7 @@ function Login() {
           const error = <li>{user.error}</li>;
           setError(error);
         } else {
+          //Our call back of login sent down from usercontext takes in our user
           login(user);
           navigate("/myaccount");
         }

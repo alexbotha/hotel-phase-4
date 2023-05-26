@@ -7,13 +7,13 @@ function Hotel() {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  let hotel = hotels.find((h) => h.id === parseInt(id));
-
   function book() {
     navigate(`/hotels/${id}/bookings/new`);
   }
 
   if (loggedIn) {
+    let hotel = hotels.find((h) => h.id === parseInt(id));
+
     return loading ? (
       <h3 className="loading">Loading...</h3>
     ) : (
@@ -35,10 +35,16 @@ function Hotel() {
             ))}
           </div>
         </div>
-        <button onClick={book}>Interested? Book now!</button>
+        <button className="bookHotel" onClick={book}>Interested? Book now!</button>
       </>
     );
-  } else return <h3>Please login in</h3>;
+  } else {
+    return (
+      <div className="errorHandle">
+        <h3>Please log in or sign up</h3>
+      </div>
+    );
+  }
 }
 
 export default Hotel;

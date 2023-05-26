@@ -1,9 +1,9 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext } from "react";
 import { UserContext } from "../context/user";
-import { useNavigate, useParams, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 function MyAccount() {
-  const { loggedIn, user, setUser, loading, hotels, setHotels } =
+  const { loggedIn, user, setUser, loading, hotels, setHotels, error } =
     useContext(UserContext);
 
   function handleDelete(booking, bookingHotelId, bookingg) {
@@ -18,6 +18,7 @@ function MyAccount() {
       return cu.id !== bookingg.user_id;
     });
 
+    //Function that contains the code that will update our custom users bookings aka update the name rendered on the page that belongs to a booking - if a user has no bookings for that hotel we dont want to see their name
     function updatedHotels() {
       let x = {
         ...hot,
@@ -38,8 +39,6 @@ function MyAccount() {
     }).then((res) => {
       if (res.ok) {
         setUser(y);
-
-        //user.bookings
 
         // if bookings.hotel_id === the delete booking hotels id
         // that means the user has a booking still
@@ -87,7 +86,11 @@ function MyAccount() {
       </div>
     );
   } else {
-    return <h3>Not available</h3>;
+    return (
+      <div className="errorHandle">
+        <h3>{error}</h3>;
+      </div>
+    );
   }
 }
 

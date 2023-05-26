@@ -8,14 +8,18 @@ class HotelsController < ApplicationController
   end 
 
   def create 
-    hotel = Hotel.create!(hotel_params)
-    render json: hotel, status: :created
+    hotel = Hotel.create(hotel_params)
+    if hotel.valid?
+    render json: hotel, status: :ok
+    else 
+      render json: {errors: hotel.errors.full_messages}, status: :unprocessable_entity
+    end
   end 
 
   def show 
     hotel = Hotel.find_by(id: params[:id]) 
       render json: hotel, status: :ok
-      #, include: ['bookings', 'bookings.user']
+      #, include: ['bookings', 'bookings.user'] 
 end
 
   # def destroy 
@@ -32,12 +36,12 @@ end
 
   private 
 
-  # def hotel_params
-  #   params.permit(:name, :location, :image_url, :rating, :price, :about, :telephone, :country)
-  # end 
+  def hotel_params
+     params.permit(:name, :location, :image_url, :rating, :price, :about, :telephone, :country)
+ end 
 
   def auth
-    return render json: {error: "Not authorized"}, status: :unauthorized unless session.include? :user_id
+    return render json: {error: "Not authorized. Please log in or sign up"}, status: :unauthorized unless session.include? :user_id
   end 
 
 end

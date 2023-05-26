@@ -11,6 +11,7 @@ function UserProvider({ children }) {
   const [loading, setLoading] = useState(true);
   let navigate = useNavigate();
 
+  // Makes a fetch to custom route - show method in userscontroller - If any errors set logged in to false otherwise true
   useEffect(() => {
     fetch("/me")
       .then((res) => res.json())
@@ -25,12 +26,18 @@ function UserProvider({ children }) {
     fetchHotels();
   }, []);
 
+  // Fetches hotels - if any errors set error state and render error else set error to empty and set hotels state with data and loading to false once it's set hotels
   function fetchHotels() {
     fetch("/hotels")
       .then((r) => r.json())
       .then((data) => {
-        setHotels(data);
-        setLoading(false);
+        if (data.error) {
+          setError(data.error);
+        } else {
+          setError([]);
+          setHotels(data);
+          setLoading(false);
+        }
       });
   }
 
@@ -47,43 +54,27 @@ function UserProvider({ children }) {
         } else {
           setUser({ ...user, bookings: [...user.bookings, data] });
 
-          // let cusId = data.user.id;
-          // let hotelBooking = Object.fromEntries(
-          //   Object.entries(data).filter((e) => e[0] !== "hotel")
-          // );
-
-          // let hotelId = data.hotel.id;
-          // let hot = hotels.find((e) => e.id === hotelId);
-
-          // let updatedHotel = {
-          //   ...hot,
-          //   custom_users: [...hot.custom_users, data.user],
-          // };
-
-          // if a booking is added we want to check if username is in custom_users once
-          // if it is in custom_users then we don't update hotels
-          // create a boolean to measure whether a booking.user_id is already in custom_users
-
-          // const z = hot.custom_users.map((cu) => cu.id);
-
           let hotelId = data.hotel.id;
-          let hot = hotels.find((e) => e.id === hotelId);
+          let hot = hotels.find((h) => h.id === hotelId);
 
+          // Function that contains code that updates our hotels state with the bookings users username to render on the page similar to our setUser above
           function updatedHotels() {
             let updatedHotel = {
               ...hot,
               custom_users: [...hot.custom_users, data.user],
             };
-
+            // Return our mapped hotels state and say if the mapped hotels id is equal to our data.hotel.id then we return our function
             return hotels.map((hotel) => {
               if (hotel.id === hotelId) {
                 return updatedHotel;
+                // else we return the hotel
               } else {
                 return hotel;
               }
             });
           }
 
+          // We then want to validate this by using !! operators to return a boolean - if the custom_users.id is equal to the data.user_id then we DONT want to render the useername again. If the usersname is not in the custom_users array we setHotels with our function
           let valid = !!hot.custom_users.find((cu) => cu.id === data.user_id);
 
           valid ? console.log("no") : setHotels(updatedHotels);
@@ -105,8 +96,7 @@ function UserProvider({ children }) {
       .then((res) => res.json())
       .then((data) => {
         if (data.error) {
-          const error = <li>{data.error}</li>;
-          setError(error);
+          setError(data.error);
         } else {
           const userBook = user.bookings.map((b) =>
             b.id === data.id ? data : b
@@ -115,6 +105,8 @@ function UserProvider({ children }) {
           const x = { ...user, bookings: userBook };
 
           setUser(x);
+          navigate("/myaccount");
+          setError([]);
         }
       });
   }
@@ -131,19 +123,27 @@ function UserProvider({ children }) {
     })
       .then((res) => res.json())
       .then((data) => {
-        setHotels([...hotels, data]);
+        if (data.errors) {
+          setError(data.errors);
+        } else {
+          setHotels([...hotels, data]);
+          setError([]);
+          navigate("/hotels");
+        }
       });
   }
 
+  //Call back function from our login component - setUser to user and loggedIn to true - then we fetch out hotels function
   function login(user) {
     setUser(user);
     setLoggedIn(true);
     fetchHotels();
   }
 
+  //SetloggedIn to false and setUser back to null
   function logout() {
     setLoggedIn(false);
-    setUser({});
+    setUser(null);
   }
 
   function signup(user) {

@@ -5,9 +5,10 @@ import { useParams, Link } from "react-router-dom";
 function UserHotels({ users }) {
   const { loggedIn, loading } = useContext(UserContext);
   const params = useParams();
-  const found = users.find(({ id }) => id === parseInt(params.id));
 
   if (loggedIn) {
+    const found = users.find(({ id }) => id === parseInt(params.id));
+
     return loading ? (
       <h3 className="loading">Loading...</h3>
     ) : (
@@ -19,7 +20,11 @@ function UserHotels({ users }) {
       </div>
     );
   } else {
-    return <h3>Not available</h3>;
+    return (
+      <div className="errorHandle">
+        <h3>Please log in or sign up</h3>
+      </div>
+    );
   }
 }
 

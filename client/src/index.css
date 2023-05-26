@@ -197,3 +197,26 @@ code {
   font-family: Arial, Helvetica, sans-serif;
   text-align: center;
 }
+
+.amountOfHotels {
+  margin-top: 50px;
+  display: grid;
+  font-family: Arial, Helvetica, sans-serif;
+  text-align: center;
+}
+
+.createHotel,
+.bookHotel {
+  position: fixed;
+  left: 50%;
+  top: 12%;
+  transform: translate(-50%, -50%);
+}
+
+.xxx {
+  display: grid;
+  float: left;
+  margin: 115px;
+  font-family: Arial, Helvetica, sans-serif;
+  text-align: center;
+}

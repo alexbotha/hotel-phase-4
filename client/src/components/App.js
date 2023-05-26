@@ -16,9 +16,10 @@ import EditBooking from "./EditBooking";
 import UserHotels from "./UserHotels";
 
 function App() {
-  const { loggedIn } = useContext(UserContext);
+  const { loggedIn, error } = useContext(UserContext);
   const [users, setUsers] = useState([]);
 
+  // UseEffect makes a fetch for ALL the users in the database so the usernames can be rendered below a hotel - as well as also being used in a ternary to prevent undefined
   useEffect(() => {
     fetch("/users")
       .then((r) => r.json())
@@ -47,7 +48,16 @@ function App() {
           path="myaccount/bookings/:booking_id"
           element={users.length > 0 ? <EditBooking /> : null}
         />
-        <Route exact path="/users/:id" element={<UserHotels users={users} />} />
+        <Route
+          exact
+          path="/users/:id"
+          element={users.length > 0 ? <UserHotels users={users} /> : null}
+        />
+        <Route
+          exact
+          path="*"
+          element={<h3 className="errorHandle">404 page not found</h3>}
+        />
       </Routes>
     </div>
   );

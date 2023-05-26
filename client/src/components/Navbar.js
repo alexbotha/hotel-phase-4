@@ -36,7 +36,18 @@ function Navbar() {
       </div>
     );
   } else {
-    return <div className="navBarContainer"></div>;
+    return (
+      <div className="navBarContainer">
+        <div className="navButtons">
+          <Button as={Link} to="/login">
+            Login
+          </Button>
+          <Button as={Link} to="/signup">
+            Signup
+          </Button>
+        </div>
+      </div>
+    );
   }
 }
 

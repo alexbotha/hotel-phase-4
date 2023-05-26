@@ -4,7 +4,7 @@ import HotelItem from "./HotelItem";
 import { NavLink, useNavigate } from "react-router-dom";
 
 function HotelsContainer() {
-  const { loggedIn, hotels, bookings } = useContext(UserContext);
+  const { loggedIn, hotels, error, loading } = useContext(UserContext);
   const navigate = useNavigate();
 
   function createHotel() {
@@ -12,13 +12,19 @@ function HotelsContainer() {
   }
 
   if (loggedIn) {
-    return (
+    return loading ? (
+      <h3>Loading...</h3>
+    ) : (
       <>
         <div>
           <h3 className="">Hotels</h3>
-          <button onClick={createHotel}>Create new hotel</button>
+          <button className="createHotel" onClick={createHotel}>
+            Create new hotel
+          </button>
           <br />
-          <p className="">There are {hotels.length} hotels to chose from</p>
+          <p className="amountOfHotels">
+            There are {hotels.length} hotels to chose from
+          </p>
         </div>
         {hotels.map((hotel) => (
           <HotelItem key={hotel.id} hotel={hotel} />
@@ -27,10 +33,9 @@ function HotelsContainer() {
     );
   } else {
     return (
-      <h3 className="errorHandle">
-        Please <NavLink to={"/signup"}>sign up</NavLink> or{" "}
-        <NavLink to={"/login"}>login</NavLink>
-      </h3>
+      <div className="errorHandle">
+        <h3>{error}</h3>
+      </div>
     );
   }
 }

@@ -1,13 +1,11 @@
 import React, { useContext, useEffect, useState } from "react";
 import { UserContext } from "../context/user";
-import { useNavigate, useParams } from "react-router-dom";
-import AddBookingForm from "./AddBookingForm";
+import { useParams } from "react-router-dom";
 
 function EditBooking() {
   const [checkIn, setCheckIn] = useState("");
   const [checkOut, setCheckOut] = useState("");
   const [guests, setGuests] = useState("");
-  const navigate = useNavigate();
 
   const { error, editBooking, loading, loggedIn, user } =
     useContext(UserContext);
@@ -29,7 +27,6 @@ function EditBooking() {
       guests: guests,
       id: booking_id,
     });
-    navigate("/myaccount");
   }
 
   if (loggedIn) {
@@ -61,6 +58,12 @@ function EditBooking() {
           <input type="submit" />
           <ul>{error}</ul>
         </form>
+      </div>
+    );
+  } else {
+    return (
+      <div className="errorHandle">
+        <h3>Please log in or sign up</h3>
       </div>
     );
   }

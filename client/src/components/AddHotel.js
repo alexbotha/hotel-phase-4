@@ -11,7 +11,7 @@ function AddHotel() {
   const [about, setAbout] = useState("");
   const [telephone, setTelephone] = useState("");
   const [country, setCountry] = useState("");
-  const { addHotel } = useContext(UserContext);
+  const { addHotel, error, loggedIn, loading } = useContext(UserContext);
 
   const navigate = useNavigate();
 
@@ -27,7 +27,7 @@ function AddHotel() {
       telephone: telephone,
       country: country,
     });
-    navigate("/hotels");
+    // navigate("/hotels");
   }
 
   // useEffect(() => {
@@ -35,63 +35,77 @@ function AddHotel() {
   //   setH(hotel);
   // }, [hotelId, hotels]);
 
-  return (
-    <div className="createBooking">
-      <h3>{"Create a new hotel"}</h3>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          value={name}
-          placeholder="Name"
-          onChange={(e) => setName(e.target.value)}
-        />
-        <input
-          type="text"
-          value={location}
-          placeholder="Location"
-          onChange={(e) => setLocation(e.target.value)}
-        />
-        <input
-          type="text"
-          value={image_url}
-          placeholder="Image url"
-          onChange={(e) => setImageUrl(e.target.value)}
-        />
-        <input
-          type="text"
-          value={rating}
-          placeholder="Rating"
-          onChange={(e) => setRating(e.target.value)}
-        />
-        <input
-          type="text"
-          value={price}
-          placeholder="Price"
-          onChange={(e) => setPrice(e.target.value)}
-        />
-        <input
-          type="text"
-          value={about}
-          placeholder="About"
-          onChange={(e) => setAbout(e.target.value)}
-        />
-        <input
-          type="text"
-          value={telephone}
-          placeholder="Telephone"
-          onChange={(e) => setTelephone(e.target.value)}
-        />
-        <input
-          type="text"
-          value={country}
-          placeholder="Country"
-          onChange={(e) => setCountry(e.target.value)}
-        />
+  if (loggedIn) {
+    return loading ? (
+      <h3>Loading...</h3>
+    ) : (
+      <div className="createBooking">
+        <h3>{"Create a new hotel"}</h3>
+        <form onSubmit={handleSubmit}>
+          <input
+            type="text"
+            value={name}
+            placeholder="Name"
+            onChange={(e) => setName(e.target.value)}
+          />
+          <input
+            type="text"
+            value={location}
+            placeholder="Location"
+            onChange={(e) => setLocation(e.target.value)}
+          />
+          <input
+            type="text"
+            value={image_url}
+            placeholder="Image url"
+            onChange={(e) => setImageUrl(e.target.value)}
+          />
+          <input
+            type="text"
+            value={rating}
+            placeholder="Rating"
+            onChange={(e) => setRating(e.target.value)}
+          />
+          <input
+            type="text"
+            value={price}
+            placeholder="Price"
+            onChange={(e) => setPrice(e.target.value)}
+          />
+          <input
+            type="text"
+            value={about}
+            placeholder="About"
+            onChange={(e) => setAbout(e.target.value)}
+          />
+          <input
+            type="text"
+            value={telephone}
+            placeholder="Telephone"
+            onChange={(e) => setTelephone(e.target.value)}
+          />
+          <input
+            type="text"
+            value={country}
+            placeholder="Country"
+            onChange={(e) => setCountry(e.target.value)}
+          />
 
-        <input type="submit" />
-      </form>
-    </div>
-  );
+          <input type="submit" />
+        </form>
+
+        {error.map((e) => {
+          return <li>{e}</li>;
+        })}
+      </div>
+    );
+  } else {
+    return (
+      <div className="errorHandle">
+        <h3>Please log in or sign up</h3>
+      </div>
+    );
+  }
 }
 
 export default AddHotel;

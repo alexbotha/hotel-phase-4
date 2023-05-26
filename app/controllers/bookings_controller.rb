@@ -1,6 +1,5 @@
 class BookingsController < ApplicationController
-  # before_action taking in the private method :auth - this runs before anyting else which 
-  # prevents someone from gaining access to the crud actions unless they're a verified user
+  # before_action taking in the private method :auth - this runs before anyting else which prevents someone from gaining access to the crud actions unless they're a verified user
   before_action :auth
 
   def index
@@ -11,12 +10,8 @@ class BookingsController < ApplicationController
 
   def show 
    booking = current_user.bookings.find_by(id: params[:id])
-   if booking
     render json: booking, status: :ok
     # , include: [:hotel, :user]
-   else 
-    render json: {error: "Not found"}, status: :unauthorized
-  end
 end
 
   def create 
@@ -63,7 +58,7 @@ end
   end 
 
   def auth
-    return render json: {error: "Not authorized"}, status: :unauthorized unless session.include? :user_id
+    return render json: {error: "Not authorized. Please login or sign up."}, status: :unauthorized unless session.include? :user_id
   end 
 
 end
