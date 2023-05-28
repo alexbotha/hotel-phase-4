@@ -16,7 +16,7 @@ import EditBooking from "./EditBooking";
 import UserHotels from "./UserHotels";
 
 function App() {
-  const { loggedIn, error } = useContext(UserContext);
+  const { loggedIn, error, user } = useContext(UserContext);
   const [users, setUsers] = useState([]);
 
   // UseEffect makes a fetch for ALL the users in the database so the usernames can be rendered below a hotel - as well as also being used in a ternary to prevent undefined
@@ -24,7 +24,7 @@ function App() {
     fetch("/users")
       .then((r) => r.json())
       .then((data) => setUsers(data));
-  }, []);
+  }, [user]);
 
   return (
     <div className="App">
